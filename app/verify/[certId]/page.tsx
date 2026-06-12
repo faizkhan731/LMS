@@ -1,3 +1,4 @@
+import React from "react";
 import { notFound } from "next/navigation";
 
 interface CertificateData {
@@ -36,7 +37,7 @@ async function getCertificate(
 
 export default async function VerifyPage({
   params,
-}: VerifyPageProps): Promise<JSX.Element> {
+}: VerifyPageProps) {
   const cert = await getCertificate(params.certId);
 
   return (
