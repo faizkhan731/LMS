@@ -23,9 +23,9 @@ export default function LoginPage() {
     clearError();
     const result = await login(email, password);
 
-    if (result.success) {
-      const role = (result as Record<string, unknown>).role as string;
-      if ((result as Record<string, unknown>).requiresPasswordChange) {
+  if (result.success && result.user) {
+      const role = result.user.role;
+      if (result.requiresPasswordChange) {
         router.push("/change-password");
       } else {
         router.push(ROLE_DASHBOARDS[role] || "/");

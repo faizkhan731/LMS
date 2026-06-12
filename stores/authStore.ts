@@ -13,10 +13,13 @@ export interface User {
 }
 
 interface AuthResponse {
-  user: User;
+  // user: User;
+    user?: User;  
   requiresPasswordChange?: boolean;
   success?: boolean;
   error?: string;
+  message?: string; 
+
 }
 
 interface ChangePasswordResponse {
@@ -82,7 +85,9 @@ const useAuthStore = create<AuthStore>((set) => ({
           error: (data.message as string) || "Login failed",
           isLoading: false,
         });
-        return { success: false, error: data.error };
+        // return { success: false, error: data.error };
+        return { success: false, error: data.message || data.error };
+
       }
 
       set({ user: data.user, isLoading: false, error: null });

@@ -35,6 +35,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Build Beyond Studio LMS",
   description: "Learning Management System — Build Beyond Studio",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
 };
 
 export default function RootLayout({

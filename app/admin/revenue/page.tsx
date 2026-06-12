@@ -5,7 +5,7 @@ import Shell from "@/app/components/Shell";
 
 interface StatCardProps {
   label: string;
-  value: string | undefined;
+  value: string | number | undefined;
   loading: boolean;
 }
 
