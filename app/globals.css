@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────
+   BBS Global Styles
+───────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+/* Focus ring consistent with BBS gold */
+:focus-visible {
+  outline: 2px solid #B8860B;
+  outline-offset: 2px;
+}
+
+/* Table utilities */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+
+
+
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   BBS Design Tokens (PRD §2.1)
+───────────────────────────────────────────── */
+@theme {
+  --color-bbs-black: #1A1A1A;
+  --color-bbs-gold: #B8860B;
+  --color-bbs-gold-mid: #D4A843;
+  --color-bbs-gold-light: #F5E6C8;
+  --color-bbs-gold-dark: #7A5C00;
+  --color-bbs-off-white: #FAFAF7;
+  --color-bbs-border: rgba(0, 0, 0, 0.10);
+
+  /* Typography colors (PRD §2.2) */
+  --color-secondary: #555555;
+  --color-muted: #999999;
+
+  /* Status badges (PRD §8.2) */
+  --color-status-active-bg: #E8F5E9;
+  --color-status-active-text: #2E7D32;
+  --color-status-warn-bg: #FFF8E1;
+  --color-status-warn-text: #F57F17;
+  --color-status-error-bg: #FFEBEE;
+  --color-status-error-text: #C62828;
+  --color-status-info-bg: #E3F2FD;
+  --color-status-info-text: #1565C0;
+  --color-status-completed-bg: #F5F5F2;
+  --color-status-completed-text: #666666;
+  --color-status-cert-bg: #F3E5F5;
+  --color-status-cert-text: #6A1B9A;
+
+  /* Course badges (PRD §8.2) */
+  --color-course-mern-bg: #FFF8E1;
+  --color-course-mern-text: #E65100;
+}
+
+/* ─────────────────────────────────────────────
+   BBS Global Styles
+───────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+/* Focus ring consistent with BBS gold */
+:focus-visible {
+  outline: 2px solid #B8860B;
+  outline-offset: 2px;
+}
+
+/* Table utilities */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Subtle entrance animation for dashboard cards */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-in-up {
+  animation: fade-in-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
