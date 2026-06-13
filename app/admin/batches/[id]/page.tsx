@@ -38,7 +38,7 @@ const AdminBatchDetail: FC = () => {
     })
       .then((r) => r.json())
       .then((d) => setBatch(d.batch || d))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -61,6 +61,7 @@ const AdminBatchDetail: FC = () => {
               alignItems: "center",
               gap: 12,
               marginBottom: 20,
+              flexWrap: "wrap",
             }}
           >
             <h1 style={{ fontSize: 16, fontWeight: 500, margin: 0 }}>
@@ -131,7 +132,7 @@ const AdminBatchDetail: FC = () => {
           </div>
 
           {/* 2-col */}
-          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+          <div className="responsive-flex-col-mobile" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
             {/* Student list */}
             <div
               style={{
@@ -159,78 +160,80 @@ const AdminBatchDetail: FC = () => {
                   Students ({batch.students?.length || 0})
                 </p>
               </div>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ backgroundColor: "#f9f9f7" }}>
-                    {["Name", "Email", "Phone"].map((h) => (
-                      <th
-                        key={h}
-                        style={{
-                          padding: "8px 12px",
-                          textAlign: "left",
-                          fontSize: 10,
-                          fontWeight: 700,
-                          color: "#999",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                        }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {(batch.students || []).length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan={3}
-                        style={{
-                          textAlign: "center",
-                          padding: 32,
-                          color: "#aaa",
-                          fontSize: 12,
-                        }}
-                      >
-                        No students in this batch
-                      </td>
+              <div className="responsive-table-wrap">
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "#f9f9f7" }}>
+                      {["Name", "Email", "Phone"].map((h) => (
+                        <th
+                          key={h}
+                          style={{
+                            padding: "8px 12px",
+                            textAlign: "left",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            color: "#999",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.06em",
+                          }}
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
-                  ) : (
-                    (batch.students || []).map((s) => (
-                      <tr
-                        key={s._id}
-                        style={{
-                          borderTop:
-                            "1px solid rgba(0,0,0,0.06)",
-                          height: 36,
-                        }}
-                      >
+                  </thead>
+                  <tbody>
+                    {(batch.students || []).length === 0 ? (
+                      <tr>
                         <td
+                          colSpan={3}
                           style={{
-                            padding: "0 12px",
+                            textAlign: "center",
+                            padding: 32,
+                            color: "#aaa",
                             fontSize: 12,
-                            fontWeight: 500,
                           }}
                         >
-                          {s.name}
-                        </td>
-                        <td
-                          style={{
-                            padding: "0 12px",
-                            fontSize: 12,
-                            color: "#555",
-                          }}
-                        >
-                          {s.email}
-                        </td>
-                        <td style={{ padding: "0 12px", fontSize: 12 }}>
-                          {s.phone}
+                          No students in this batch
                         </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    ) : (
+                      (batch.students || []).map((s) => (
+                        <tr
+                          key={s._id}
+                          style={{
+                            borderTop:
+                              "1px solid rgba(0,0,0,0.06)",
+                            height: 36,
+                          }}
+                        >
+                          <td
+                            style={{
+                              padding: "0 12px",
+                              fontSize: 12,
+                              fontWeight: 500,
+                            }}
+                          >
+                            {s.name}
+                          </td>
+                          <td
+                            style={{
+                              padding: "0 12px",
+                              fontSize: 12,
+                              color: "#555",
+                            }}
+                          >
+                            {s.email}
+                          </td>
+                          <td style={{ padding: "0 12px", fontSize: 12 }}>
+                            {s.phone}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Teacher progress */}

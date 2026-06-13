@@ -92,12 +92,12 @@ export default function AdminBatches() {
   const [loading, setLoading] = useState(true);
 
   const DEMO_BATCHES: Batch[] = [
-    { _id: "b1", name: "WD Batch Jan-26",   course: "WD001",   teacher: { name: "Priya Sharma" },  studentCount: 42, daysMarked: 72, status: "active" },
-    { _id: "b2", name: "MERN Batch Feb-26", course: "MERN001", teacher: { name: "Rahul Mehta" },   studentCount: 38, daysMarked: 55, status: "active" },
-    { _id: "b3", name: "WD Batch Mar-26",   course: "WD001",   teacher: { name: "Sneha Patel" },   studentCount: 55, daysMarked: 40, status: "active" },
-    { _id: "b4", name: "MERN Batch Apr-26", course: "MERN001", teacher: { name: "Arjun Nair" },    studentCount: 29, daysMarked: 20, status: "active" },
-    { _id: "b5", name: "WD Batch May-26",   course: "WD001",   teacher: undefined,                 studentCount: 15, daysMarked:  5, status: "active" },
-    { _id: "b6", name: "WD Batch Dec-25",   course: "WD001",   teacher: { name: "Priya Sharma" },  studentCount: 48, daysMarked: 90, status: "completed" },
+    { _id: "b1", name: "WD Batch Jan-26", course: "WD001", teacher: { name: "Priya Sharma" }, studentCount: 42, daysMarked: 72, status: "active" },
+    { _id: "b2", name: "MERN Batch Feb-26", course: "MERN001", teacher: { name: "Rahul Mehta" }, studentCount: 38, daysMarked: 55, status: "active" },
+    { _id: "b3", name: "WD Batch Mar-26", course: "WD001", teacher: { name: "Sneha Patel" }, studentCount: 55, daysMarked: 40, status: "active" },
+    { _id: "b4", name: "MERN Batch Apr-26", course: "MERN001", teacher: { name: "Arjun Nair" }, studentCount: 29, daysMarked: 20, status: "active" },
+    { _id: "b5", name: "WD Batch May-26", course: "WD001", teacher: undefined, studentCount: 15, daysMarked: 5, status: "active" },
+    { _id: "b6", name: "WD Batch Dec-25", course: "WD001", teacher: { name: "Priya Sharma" }, studentCount: 48, daysMarked: 90, status: "completed" },
   ];
 
   useEffect(() => {
@@ -133,38 +133,39 @@ export default function AdminBatches() {
           overflow: "hidden",
         }}
       >
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f9f9f7" }}>
-              {[
-                "Batch Name",
-                "Course",
-                "Teacher",
-                "Students",
-                "Progress",
-                "Status",
-                "Actions",
-              ].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    padding: "8px 12px",
-                    textAlign: "left",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: "#999",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading
-              ? Array.from({ length: 4 }).map((_, i) => (
+        <div className="responsive-table-wrap">
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f9f9f7" }}>
+                {[
+                  "Batch Name",
+                  "Course",
+                  "Teacher",
+                  "Students",
+                  "Progress",
+                  "Status",
+                  "Actions",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      padding: "8px 12px",
+                      textAlign: "left",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#999",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {loading
+                ? Array.from({ length: 4 }).map((_, i) => (
                   <tr key={i}>
                     {Array.from({ length: 7 }).map((_, j) => (
                       <td key={j} style={{ padding: "10px 12px" }}>
@@ -180,114 +181,115 @@ export default function AdminBatches() {
                     ))}
                   </tr>
                 ))
-              : batches.length === 0
-              ? (
-                  <tr>
-                    <td
-                      colSpan={7}
-                      style={{
-                        textAlign: "center",
-                        padding: 48,
-                        color: "#aaa",
-                        fontSize: 12,
-                      }}
-                    >
-                      No batches found
-                    </td>
-                  </tr>
-                )
-              : batches.map((b) => (
-                  <tr
-                    key={b._id}
-                    style={{
-                      borderTop: "1px solid rgba(0,0,0,0.06)",
-                      height: 40,
-                    }}
-                  >
-                    <td style={{ padding: "0 12px" }}>
-                      <Link
-                        href={`/admin/batches/${b._id}`}
+                : batches.length === 0
+                  ? (
+                    <tr>
+                      <td
+                        colSpan={7}
                         style={{
+                          textAlign: "center",
+                          padding: 48,
+                          color: "#aaa",
                           fontSize: 12,
-                          fontWeight: 600,
-                          color: "#1A1A1A",
-                          textDecoration: "none",
                         }}
                       >
-                        {b.name}
-                      </Link>
-                    </td>
-                    <td style={{ padding: "0 12px" }}>
-                      <CourseBadge course={b.course} />
-                    </td>
-                    <td
+                        No batches found
+                      </td>
+                    </tr>
+                  )
+                  : batches.map((b) => (
+                    <tr
+                      key={b._id}
                       style={{
-                        padding: "0 12px",
-                        fontSize: 12,
-                        color: b.teacher ? "#1A1A1A" : "#aaa",
+                        borderTop: "1px solid rgba(0,0,0,0.06)",
+                        height: 40,
                       }}
                     >
-                      {b.teacher?.name || "Unassigned"}
-                    </td>
-                    <td style={{ padding: "0 12px", fontSize: 12 }}>
-                      {b.studentCount ?? 0}
-                    </td>
-                    <td style={{ padding: "0 12px", minWidth: 140 }}>
-                      <ProgressBar value={b.daysMarked ?? 0} max={90} />
-                    </td>
-                    <td style={{ padding: "0 12px" }}>
-                      <StatusBadge status={b.status} />
-                    </td>
-                    <td style={{ padding: "0 12px", whiteSpace: "nowrap" }}>
-                      <button
+                      <td style={{ padding: "0 12px" }}>
+                        <Link
+                          href={`/admin/batches/${b._id}`}
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: "#1A1A1A",
+                            textDecoration: "none",
+                          }}
+                        >
+                          {b.name}
+                        </Link>
+                      </td>
+                      <td style={{ padding: "0 12px" }}>
+                        <CourseBadge course={b.course} />
+                      </td>
+                      <td
                         style={{
-                          fontSize: 11,
-                          padding: "2px 8px",
-                          border: "1px solid rgba(0,0,0,0.10)",
-                          borderRadius: 4,
-                          cursor: "pointer",
-                          backgroundColor: "transparent",
-                          fontFamily: "inherit",
-                          marginRight: 4,
+                          padding: "0 12px",
+                          fontSize: 12,
+                          color: b.teacher ? "#1A1A1A" : "#aaa",
                         }}
                       >
-                        Edit WA Link
-                      </button>
-                      <button
-                        style={{
-                          fontSize: 11,
-                          padding: "2px 8px",
-                          border: "1px solid rgba(0,0,0,0.10)",
-                          borderRadius: 4,
-                          cursor: "pointer",
-                          backgroundColor: "transparent",
-                          fontFamily: "inherit",
-                          marginRight: 4,
-                        }}
-                      >
-                        Assign Teacher
-                      </button>
-                      {b.status !== "completed" && (
+                        {b.teacher?.name || "Unassigned"}
+                      </td>
+                      <td style={{ padding: "0 12px", fontSize: 12 }}>
+                        {b.studentCount ?? 0}
+                      </td>
+                      <td style={{ padding: "0 12px", minWidth: 140 }}>
+                        <ProgressBar value={b.daysMarked ?? 0} max={90} />
+                      </td>
+                      <td style={{ padding: "0 12px" }}>
+                        <StatusBadge status={b.status} />
+                      </td>
+                      <td style={{ padding: "0 12px", whiteSpace: "nowrap" }}>
                         <button
                           style={{
                             fontSize: 11,
                             padding: "2px 8px",
-                            border: "none",
+                            border: "1px solid rgba(0,0,0,0.10)",
                             borderRadius: 4,
                             cursor: "pointer",
-                            backgroundColor: "#b91c1c",
-                            color: "#fff",
+                            backgroundColor: "transparent",
                             fontFamily: "inherit",
+                            marginRight: 4,
                           }}
                         >
-                          Mark Complete
+                          Edit WA Link
                         </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
+                        <button
+                          style={{
+                            fontSize: 11,
+                            padding: "2px 8px",
+                            border: "1px solid rgba(0,0,0,0.10)",
+                            borderRadius: 4,
+                            cursor: "pointer",
+                            backgroundColor: "transparent",
+                            fontFamily: "inherit",
+                            marginRight: 4,
+                          }}
+                        >
+                          Assign Teacher
+                        </button>
+                        {b.status !== "completed" && (
+                          <button
+                            style={{
+                              fontSize: 11,
+                              padding: "2px 8px",
+                              border: "none",
+                              borderRadius: 4,
+                              cursor: "pointer",
+                              backgroundColor: "#b91c1c",
+                              color: "#fff",
+                              fontFamily: "inherit",
+                            }}
+                          >
+                            Mark Complete
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Shell>
   );

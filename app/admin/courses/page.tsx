@@ -28,7 +28,7 @@ export default function AdminCourses() {
       >
         Courses
       </h1>
-      <div style={{ display: "flex", gap: 16 }}>
+      <div className="responsive-flex-col-mobile" style={{ display: "flex", gap: 16 }}>
         {COURSES.map((c) => (
           <div
             key={c.id}

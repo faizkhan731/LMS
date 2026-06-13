@@ -44,6 +44,7 @@ table {
 
 
 @import "tailwindcss";
+@import "./responsive.css";
 
 /* ─────────────────────────────────────────────
    BBS Design Tokens (PRD §2.1)

@@ -33,7 +33,7 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/dashboard",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 3h8v8H3V3zM13 3h8v8h-8V3zM3 13h8v8H3v-8zM13 13h8v8h-8v-8z" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 3h8v8H3V3zM13 3h8v8h-8V3zM3 13h8v8H3v-8zM13 13h8v8h-8v-8z" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -42,9 +42,9 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/students",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M6 11c1.657 0 3-1.343 3-3S7.657 5 6 5 3 6.343 3 8s1.343 3 3 3z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3 20c0-2.5 2.5-4 5-4h8c2.5 0 5 1.5 5 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M16 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 11c1.657 0 3-1.343 3-3S7.657 5 6 5 3 6.343 3 8s1.343 3 3 3z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M3 20c0-2.5 2.5-4 5-4h8c2.5 0 5 1.5 5 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -53,8 +53,8 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/batches",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 16V8a2 2 0 00-1-1.73L13 3.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M7 9l5 3 5-3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 16V8a2 2 0 00-1-1.73L13 3.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M7 9l5 3 5-3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -63,8 +63,8 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/teachers",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M4 20v-1a4 4 0 014-4h8a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 20v-1a4 4 0 014-4h8a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -73,8 +73,8 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/courses",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 7h6v11H3zM15 7h6v11h-6z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M9 7c2.5-1 4-1 6 0" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 7h6v11H3zM15 7h6v11h-6z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 7c2.5-1 4-1 6 0" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -83,42 +83,46 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
       href: "/admin/revenue",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 1v22" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M17 5H9.5a3 3 0 000 6H15a3 3 0 010 6H7" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 1v22" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M17 5H9.5a3 3 0 000 6H15a3 3 0 010 6H7" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
   ],
   teacher: [
-    { label: "My Batches", href: "/teacher/batches", icon: (
+    {
+      label: "My Batches", href: "/teacher/batches", icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 16V8a2 2 0 00-1-1.73L13 3.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M7 9l5 3 5-3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 16V8a2 2 0 00-1-1.73L13 3.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M7 9l5 3 5-3" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      ) }],
+      )
+    }],
   student: [
     {
       label: "My Roadmap",
       href: "/student/roadmap",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 6l6-3 6 3 6-3v12l-6 3-6-3-6 3V6z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M3 6l6-3 6 3 6-3v12l-6 3-6-3-6 3V6z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
-    { label: "Profile", href: "/student/profile", icon: (
+    {
+      label: "Profile", href: "/student/profile", icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M4 20v-1a4 4 0 014-4h8a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 20v-1a4 4 0 014-4h8a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      ) },
+      )
+    },
     {
       label: "Certificate",
       href: "/student/certificate",
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 7l-9 6-9-6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 13v8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 7l-9 6-9-6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M12 13v8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
@@ -149,6 +153,9 @@ const Shell: FC<ShellProps> = ({ children }) => {
   const router = useRouter();
   const { user, logout } = useAuthStore();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+
   // const [demoRole, setDemoRole] = useState<Role>(user?.role || "student");
 
   // useEffect(() => {
@@ -179,6 +186,16 @@ const Shell: FC<ShellProps> = ({ children }) => {
       >
         {/* Left: Logo */}
         <div className="flex items-center gap-2">
+          {/* Mobile hamburger menu */}
+          <button
+            className="shell-mobile-toggle"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open Menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
           <div
             className="flex items-center justify-center rounded-md"
             style={{
@@ -198,7 +215,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
               BBS
             </span>
           </div>
-          <span style={{ fontSize: 12, fontWeight: 500, color: "#FAFAF7" }}>
+          <span className="shell-brand-text" style={{ fontSize: 12, fontWeight: 500, color: "#FAFAF7" }}>
             Build Beyond Studio LMS
           </span>
         </div>
@@ -232,7 +249,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
             ))}
           </select>
         </div> */}
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <span style={{ fontSize: 14 }}>{ROLE_ICONS[role]}</span>
           <span
             className={`px-2 py-0.5 rounded-full text-10 font-semibold capitalize ${ROLE_COLORS[role]}`}
@@ -243,7 +260,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
 
         {/* Right: User info */}
         <div className="flex items-center gap-2">
-          <span style={{ fontSize: 11, color: "#FAFAF7", opacity: 0.8 }}>
+          <span className="shell-username-text" style={{ fontSize: 11, color: "#FAFAF7", opacity: 0.8 }}>
             {user?.name || "User"}
           </span>
           {/* Avatar */}
@@ -267,9 +284,9 @@ const Shell: FC<ShellProps> = ({ children }) => {
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M16 17l5-5-5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M21 12H9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M16 17l5-5-5-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M21 12H9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
@@ -277,20 +294,22 @@ const Shell: FC<ShellProps> = ({ children }) => {
 
       {/* ── Body (sidebar + content) ─────────── */}
       <div className="flex flex-1" style={{ paddingTop: 44 }}>
+        {/* Mobile backdrop overlay */}
+        {mobileOpen && (
+          <div 
+            className="shell-mobile-backdrop" 
+            onClick={() => setMobileOpen(false)} 
+          />
+        )}
+        
         {/* Sidebar */}
         <aside
-          className="fixed left-0 bottom-0 overflow-y-auto transition-all duration-200 border-r"
-          style={{
-            top: 44,
-            width: collapsed ? 48 : 200,
-            backgroundColor: "#FAFAF7",
-            borderColor: "rgba(0,0,0,0.10)",
-          }}
+          className={`shell-sidebar ${mobileOpen ? "shell-sidebar--open" : ""} ${collapsed ? "shell-sidebar--collapsed" : ""}`}
         >
           {/* Collapse toggle */}
           <button
             onClick={() => setCollapsed((c) => !c)}
-            className="w-full flex items-center justify-end px-3 py-2 opacity-30 hover:opacity-70 transition-opacity"
+            className="shell-sidebar-collapse-btn w-full flex items-center justify-end px-3 py-2 opacity-30 hover:opacity-70 transition-opacity"
             style={{
               fontSize: 12,
               background: "none",
@@ -325,6 +344,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-2 transition-colors duration-100 relative"
                   style={{
                     height: 30,
@@ -355,13 +375,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
 
         {/* Main content */}
         <main
-          className="flex-1 overflow-auto"
-          style={{
-            marginLeft: collapsed ? 48 : 200,
-            padding: 32,
-            backgroundColor: "#fff",
-            minHeight: "calc(100vh - 44px)",
-          }}
+          className={`flex-1 overflow-auto shell-main ${collapsed ? "shell-main--collapsed" : ""}`}
         >
           {children}
         </main>

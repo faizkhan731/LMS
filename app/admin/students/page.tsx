@@ -77,18 +77,18 @@ export default function AdminStudents() {
   const PAGE_SIZE = 20;
 
   const DEMO_STUDENTS: Student[] = [
-    { _id: "s1",  name: "Aarav Mehta",    email: "aarav.mehta@email.com",    phone: "9876543210", course: "WD001",   status: "active",   batch: { name: "WD Batch Jan-26" } },
-    { _id: "s2",  name: "Priya Singh",    email: "priya.singh@email.com",    phone: "9823456781", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
-    { _id: "s3",  name: "Rohan Kumar",    email: "rohan.kumar@email.com",    phone: "9845672345", course: "WD001",   status: "inactive", batch: { name: "WD Batch Jan-26" } },
-    { _id: "s4",  name: "Sneha Patel",    email: "sneha.patel@email.com",    phone: "9812345678", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
-    { _id: "s5",  name: "Arjun Nair",     email: "arjun.nair@email.com",     phone: "9867890123", course: "WD001",   status: "active",   batch: { name: "WD Batch Mar-26" } },
-    { _id: "s6",  name: "Kavya Reddy",    email: "kavya.reddy@email.com",    phone: "9898765432", course: "MERN001", status: "active",   batch: { name: "MERN Batch Apr-26" } },
-    { _id: "s7",  name: "Vikram Joshi",   email: "vikram.joshi@email.com",   phone: "9834567890", course: "WD001",   status: "active",   batch: { name: "WD Batch Mar-26" } },
-    { _id: "s8",  name: "Meena Iyer",     email: "meena.iyer@email.com",     phone: "9856789012", course: "WD001",   status: "inactive", batch: { name: "WD Batch Jan-26" } },
-    { _id: "s9",  name: "Nikhil Sharma",  email: "nikhil.sharma@email.com",  phone: "9878901234", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
-    { _id: "s10", name: "Ananya Gupta",   email: "ananya.gupta@email.com",   phone: "9801234567", course: "WD001",   status: "active",   batch: { name: "WD Batch May-26" } },
-    { _id: "s11", name: "Rahul Desai",    email: "rahul.desai@email.com",    phone: "9889012345", course: "MERN001", status: "active",   batch: { name: "MERN Batch Apr-26" } },
-    { _id: "s12", name: "Pooja Verma",    email: "pooja.verma@email.com",    phone: "9812398765", course: "WD001",   status: "active",   batch: { name: "WD Batch May-26" } },
+    { _id: "s1", name: "Aarav Mehta", email: "aarav.mehta@email.com", phone: "9876543210", course: "WD001", status: "active", batch: { name: "WD Batch Jan-26" } },
+    { _id: "s2", name: "Priya Singh", email: "priya.singh@email.com", phone: "9823456781", course: "MERN001", status: "active", batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s3", name: "Rohan Kumar", email: "rohan.kumar@email.com", phone: "9845672345", course: "WD001", status: "inactive", batch: { name: "WD Batch Jan-26" } },
+    { _id: "s4", name: "Sneha Patel", email: "sneha.patel@email.com", phone: "9812345678", course: "MERN001", status: "active", batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s5", name: "Arjun Nair", email: "arjun.nair@email.com", phone: "9867890123", course: "WD001", status: "active", batch: { name: "WD Batch Mar-26" } },
+    { _id: "s6", name: "Kavya Reddy", email: "kavya.reddy@email.com", phone: "9898765432", course: "MERN001", status: "active", batch: { name: "MERN Batch Apr-26" } },
+    { _id: "s7", name: "Vikram Joshi", email: "vikram.joshi@email.com", phone: "9834567890", course: "WD001", status: "active", batch: { name: "WD Batch Mar-26" } },
+    { _id: "s8", name: "Meena Iyer", email: "meena.iyer@email.com", phone: "9856789012", course: "WD001", status: "inactive", batch: { name: "WD Batch Jan-26" } },
+    { _id: "s9", name: "Nikhil Sharma", email: "nikhil.sharma@email.com", phone: "9878901234", course: "MERN001", status: "active", batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s10", name: "Ananya Gupta", email: "ananya.gupta@email.com", phone: "9801234567", course: "WD001", status: "active", batch: { name: "WD Batch May-26" } },
+    { _id: "s11", name: "Rahul Desai", email: "rahul.desai@email.com", phone: "9889012345", course: "MERN001", status: "active", batch: { name: "MERN Batch Apr-26" } },
+    { _id: "s12", name: "Pooja Verma", email: "pooja.verma@email.com", phone: "9812398765", course: "WD001", status: "active", batch: { name: "WD Batch May-26" } },
   ];
 
   const fetchStudents = useCallback(async () => {
@@ -244,31 +244,32 @@ export default function AdminStudents() {
           overflow: "hidden",
         }}
       >
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f9f9f7" }}>
-              {["", "Name", "Email", "Phone", "Course", "Batch", "Status", "Actions"].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    padding: "8px 12px",
-                    textAlign: "left",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: "#999",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading
-              ? Array.from({ length: 5 }).map((_, i) => (
+        <div className="responsive-table-wrap">
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f9f9f7" }}>
+                {["", "Name", "Email", "Phone", "Course", "Batch", "Status", "Actions"].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      padding: "8px 12px",
+                      textAlign: "left",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#999",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {loading
+                ? Array.from({ length: 5 }).map((_, i) => (
                   <tr key={i}>
                     {Array.from({ length: 8 }).map((_, j) => (
                       <td key={j} style={{ padding: "8px 12px" }}>
@@ -284,89 +285,90 @@ export default function AdminStudents() {
                     ))}
                   </tr>
                 ))
-              : students.length === 0
-              ? (
-                  <tr>
-                    <td
-                      colSpan={8}
-                      style={{
-                        textAlign: "center",
-                        padding: 48,
-                        color: "#aaa",
-                        fontSize: 12,
-                      }}
-                    >
-                      No students found
-                    </td>
-                  </tr>
-                )
-              : students.map((s) => (
-                  <tr
-                    key={s._id}
-                    style={{
-                      borderTop: "1px solid rgba(0,0,0,0.06)",
-                      height: 36,
-                    }}
-                  >
-                    <td style={{ padding: "0 12px" }}>
-                      <input type="checkbox" />
-                    </td>
-                    <td
-                      style={{
-                        padding: "0 12px",
-                        fontSize: 12,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {s.name}
-                    </td>
-                    <td style={{ padding: "0 12px", fontSize: 12, color: "#555" }}>
-                      {s.email}
-                    </td>
-                    <td style={{ padding: "0 12px", fontSize: 12 }}>{s.phone}</td>
-                    <td style={{ padding: "0 12px" }}>
-                      <CourseBadge course={s.course} />
-                    </td>
-                    <td style={{ padding: "0 12px", fontSize: 11, color: "#777" }}>
-                      {s.batch?.name || "—"}
-                    </td>
-                    <td style={{ padding: "0 12px" }}>
-                      <StatusBadge status={s.status} />
-                    </td>
-                    <td style={{ padding: "0 12px" }}>
-                      <button
+                : students.length === 0
+                  ? (
+                    <tr>
+                      <td
+                        colSpan={8}
                         style={{
-                          fontSize: 11,
-                          padding: "2px 8px",
-                          border: "1px solid rgba(0,0,0,0.10)",
-                          borderRadius: 4,
-                          cursor: "pointer",
-                          backgroundColor: "transparent",
-                          fontFamily: "inherit",
-                          marginRight: 4,
+                          textAlign: "center",
+                          padding: 48,
+                          color: "#aaa",
+                          fontSize: 12,
                         }}
                       >
-                        Edit
-                      </button>
-                      <button
+                        No students found
+                      </td>
+                    </tr>
+                  )
+                  : students.map((s) => (
+                    <tr
+                      key={s._id}
+                      style={{
+                        borderTop: "1px solid rgba(0,0,0,0.06)",
+                        height: 36,
+                      }}
+                    >
+                      <td style={{ padding: "0 12px" }}>
+                        <input type="checkbox" />
+                      </td>
+                      <td
                         style={{
-                          fontSize: 11,
-                          padding: "2px 8px",
-                          border: "1px solid #ffcdd2",
-                          borderRadius: 4,
-                          cursor: "pointer",
-                          backgroundColor: "#fff",
-                          color: "#C62828",
-                          fontFamily: "inherit",
+                          padding: "0 12px",
+                          fontSize: 12,
+                          fontWeight: 500,
                         }}
                       >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
+                        {s.name}
+                      </td>
+                      <td style={{ padding: "0 12px", fontSize: 12, color: "#555" }}>
+                        {s.email}
+                      </td>
+                      <td style={{ padding: "0 12px", fontSize: 12 }}>{s.phone}</td>
+                      <td style={{ padding: "0 12px" }}>
+                        <CourseBadge course={s.course} />
+                      </td>
+                      <td style={{ padding: "0 12px", fontSize: 11, color: "#777" }}>
+                        {s.batch?.name || "—"}
+                      </td>
+                      <td style={{ padding: "0 12px" }}>
+                        <StatusBadge status={s.status} />
+                      </td>
+                      <td style={{ padding: "0 12px" }}>
+                        <button
+                          style={{
+                            fontSize: 11,
+                            padding: "2px 8px",
+                            border: "1px solid rgba(0,0,0,0.10)",
+                            borderRadius: 4,
+                            cursor: "pointer",
+                            backgroundColor: "transparent",
+                            fontFamily: "inherit",
+                            marginRight: 4,
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          style={{
+                            fontSize: 11,
+                            padding: "2px 8px",
+                            border: "1px solid #ffcdd2",
+                            borderRadius: 4,
+                            cursor: "pointer",
+                            backgroundColor: "#fff",
+                            color: "#C62828",
+                            fontFamily: "inherit",
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
@@ -377,6 +379,8 @@ export default function AdminStudents() {
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: 12,
+            flexWrap: "wrap",
+            gap: "12px",
           }}
         >
           <p style={{ fontSize: 12, color: "#777", margin: 0 }}>

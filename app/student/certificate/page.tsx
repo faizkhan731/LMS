@@ -238,6 +238,7 @@ const StudentCertificate: FC = () => {
               margin: 0,
               textAlign: "center",
               fontFamily: "monospace",
+              wordBreak: "break-all",
             }}
           >
             {BASE_URL}/verify/{cert.certId}

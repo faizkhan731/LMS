@@ -96,30 +96,31 @@ const RevenueTable: FC<RevenueTableProps> = ({ title, rows, cols, loading }) => 
         {title}
       </p>
     </div>
-    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-      <thead>
-        <tr style={{ backgroundColor: "#f9f9f7" }}>
-          {cols.map((h) => (
-            <th
-              key={h}
-              style={{
-                padding: "8px 12px",
-                textAlign: "left",
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#999",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-              }}
-            >
-              {h}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {loading
-          ? Array.from({ length: 3 }).map((_, i) => (
+    <div className="responsive-table-wrap">
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr style={{ backgroundColor: "#f9f9f7" }}>
+            {cols.map((h) => (
+              <th
+                key={h}
+                style={{
+                  padding: "8px 12px",
+                  textAlign: "left",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#999",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => (
               <tr key={i}>
                 {cols.map((_, j) => (
                   <td key={j} style={{ padding: "10px 12px" }}>
@@ -135,55 +136,56 @@ const RevenueTable: FC<RevenueTableProps> = ({ title, rows, cols, loading }) => 
                 ))}
               </tr>
             ))
-          : !rows || rows.length === 0
-          ? (
-              <tr>
-                <td
-                  colSpan={cols.length}
+            : !rows || rows.length === 0
+              ? (
+                <tr>
+                  <td
+                    colSpan={cols.length}
+                    style={{
+                      textAlign: "center",
+                      padding: 32,
+                      color: "#aaa",
+                      fontSize: 12,
+                    }}
+                  >
+                    No data
+                  </td>
+                </tr>
+              )
+              : rows.map((r, i) => (
+                <tr
+                  key={i}
                   style={{
-                    textAlign: "center",
-                    padding: 32,
-                    color: "#aaa",
-                    fontSize: 12,
+                    borderTop: "1px solid rgba(0,0,0,0.06)",
+                    height: 36,
                   }}
                 >
-                  No data
-                </td>
-              </tr>
-            )
-          : rows.map((r, i) => (
-              <tr
-                key={i}
-                style={{
-                  borderTop: "1px solid rgba(0,0,0,0.06)",
-                  height: 36,
-                }}
-              >
-                <td
-                  style={{
-                    padding: "0 12px",
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                >
-                  {r.name}
-                </td>
-                <td style={{ padding: "0 12px", fontSize: 12 }}>
-                  {r.students}
-                </td>
-                <td
-                  style={{
-                    padding: "0 12px",
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                >
-                  ₹{Number(r.revenue).toLocaleString("en-IN")}
-                </td>
-              </tr>
-            ))}
-      </tbody>
-    </table>
+                  <td
+                    style={{
+                      padding: "0 12px",
+                      fontSize: 12,
+                      fontWeight: 500,
+                    }}
+                  >
+                    {r.name}
+                  </td>
+                  <td style={{ padding: "0 12px", fontSize: 12 }}>
+                    {r.students}
+                  </td>
+                  <td
+                    style={{
+                      padding: "0 12px",
+                      fontSize: 12,
+                      fontWeight: 500,
+                    }}
+                  >
+                    ₹{Number(r.revenue).toLocaleString("en-IN")}
+                  </td>
+                </tr>
+              ))}
+        </tbody>
+      </table>
+    </div>
   </div>
 );
 
@@ -197,7 +199,7 @@ export default function AdminRevenue() {
     })
       .then((r) => r.json())
       .then((d) => setData(d))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -216,7 +218,7 @@ export default function AdminRevenue() {
       >
         Revenue
       </h1>
-      <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
+      <div className="responsive-flex-col-mobile" style={{ display: "flex", gap: 12, marginBottom: 24 }}>
         <StatCard
           label="Total Revenue"
           value={fmt(data?.totalRevenue)}
@@ -233,7 +235,7 @@ export default function AdminRevenue() {
           loading={loading}
         />
       </div>
-      <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+      <div className="responsive-flex-col-mobile" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
         {/* Course-wise */}
         <RevenueTable
           title="Course-wise Revenue"
