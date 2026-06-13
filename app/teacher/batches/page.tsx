@@ -16,13 +16,21 @@ const TeacherBatches: FC = () => {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const DEMO_BATCHES: Batch[] = [
+    { _id: "b1", name: "WD Batch Jan-26",   course: "WD001",   studentCount: 42, daysMarked: 72 },
+    { _id: "b3", name: "WD Batch Mar-26",   course: "WD001",   studentCount: 55, daysMarked: 40 },
+  ];
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/teacher/batches`, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((d) => setBatches(d.batches || []))
-      .catch(() => {})
+      .then((d) => {
+        const fetched = d.batches || [];
+        setBatches(fetched.length > 0 ? fetched : DEMO_BATCHES);
+      })
+      .catch(() => setBatches(DEMO_BATCHES))
       .finally(() => setLoading(false));
   }, []);
 

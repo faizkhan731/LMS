@@ -20,13 +20,24 @@ const AdminTeachers: FC = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const DEMO_TEACHERS: Teacher[] = [
+    { _id: "t1", name: "Priya Sharma",  email: "priya.sharma@lms.com",  phone: "9811223344", batches: [{ _id: "b1", name: "WD Batch Jan-26" }, { _id: "b3", name: "WD Batch Mar-26" }] },
+    { _id: "t2", name: "Rahul Mehta",   email: "rahul.mehta@lms.com",   phone: "9822334455", batches: [{ _id: "b2", name: "MERN Batch Feb-26" }] },
+    { _id: "t3", name: "Sneha Patel",   email: "sneha.patel@lms.com",   phone: "9833445566", batches: [{ _id: "b3", name: "WD Batch Mar-26" }] },
+    { _id: "t4", name: "Arjun Nair",    email: "arjun.nair@lms.com",    phone: "9844556677", batches: [{ _id: "b4", name: "MERN Batch Apr-26" }] },
+    { _id: "t5", name: "Divya Krishnan", email: "divya.krishnan@lms.com", phone: "9855667788", batches: [] },
+  ];
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/teachers`, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((d) => setTeachers(d.teachers || []))
-      .catch(() => {})
+      .then((d) => {
+        const fetched = d.teachers || [];
+        setTeachers(fetched.length > 0 ? fetched : DEMO_TEACHERS);
+      })
+      .catch(() => setTeachers(DEMO_TEACHERS))
       .finally(() => setLoading(false));
   }, []);
 

@@ -91,13 +91,25 @@ export default function AdminBatches() {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const DEMO_BATCHES: Batch[] = [
+    { _id: "b1", name: "WD Batch Jan-26",   course: "WD001",   teacher: { name: "Priya Sharma" },  studentCount: 42, daysMarked: 72, status: "active" },
+    { _id: "b2", name: "MERN Batch Feb-26", course: "MERN001", teacher: { name: "Rahul Mehta" },   studentCount: 38, daysMarked: 55, status: "active" },
+    { _id: "b3", name: "WD Batch Mar-26",   course: "WD001",   teacher: { name: "Sneha Patel" },   studentCount: 55, daysMarked: 40, status: "active" },
+    { _id: "b4", name: "MERN Batch Apr-26", course: "MERN001", teacher: { name: "Arjun Nair" },    studentCount: 29, daysMarked: 20, status: "active" },
+    { _id: "b5", name: "WD Batch May-26",   course: "WD001",   teacher: undefined,                 studentCount: 15, daysMarked:  5, status: "active" },
+    { _id: "b6", name: "WD Batch Dec-25",   course: "WD001",   teacher: { name: "Priya Sharma" },  studentCount: 48, daysMarked: 90, status: "completed" },
+  ];
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/batches`, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((d) => setBatches(d.batches || []))
-      .catch(() => {})
+      .then((d) => {
+        const fetched = d.batches || [];
+        setBatches(fetched.length > 0 ? fetched : DEMO_BATCHES);
+      })
+      .catch(() => setBatches(DEMO_BATCHES))
       .finally(() => setLoading(false));
   }, []);
 

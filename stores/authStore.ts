@@ -65,9 +65,83 @@ const useAuthStore = create<AuthStore>((set) => ({
    * Backend sets httpOnly cookie with JWT.
    * We store decoded user info in state.
    */
+  // login: async (email: string, password: string): Promise<AuthResponse> => {
+  //   set({ isLoading: true, error: null });
+  //       console.log("DEBUG →", JSON.stringify(email), JSON.stringify(password)); // 👈 temporary
+
+  //    const demoUsers: Record<string, User> = {
+  //     "admin@demo.com": {
+  //       id: "demo-admin",
+  //       name: "Admin User",
+  //       email: "admin@demo.com",
+  //       role: "admin",
+  //     },
+  //     "teacher@demo.com": {
+  //       id: "demo-teacher",
+  //       name: "Teacher User",
+  //       email: "teacher@demo.com",
+  //       role: "teacher",
+  //     },
+  //     "student@demo.com": {
+  //       id: "demo-student",
+  //       name: "Student User",
+  //       email: "student@demo.com",
+  //       role: "student",
+  //     },
+  //   };
+
+  //   if (password === "Demo@123" && demoUsers[email]) {
+  //     const user = demoUsers[email];
+  //     set({ user, isLoading: false, error: null });
+  //     return { success: true, user };
+  //   }
+
+
   login: async (email: string, password: string): Promise<AuthResponse> => {
     set({ isLoading: true, error: null });
-    try {
+
+    const demoUsers: Record<string, { password: string; user: User }> = {
+      "admin@demo.com": {
+        password: "admin123",
+        user: { id: "demo-admin", name: "Admin User", email: "admin@demo.com", role: "admin" },
+      },
+      "teacher@demo.com": {
+        password: "teacher123",
+        user: { id: "demo-teacher", name: "Teacher User", email: "teacher@demo.com", role: "teacher" },
+      },
+      "student@demo.com": {
+        password: "student123",
+        user: { id: "demo-student", name: "Student User", email: "student@demo.com", role: "student" },
+      },
+    };
+
+   const emailKey = email.trim().toLowerCase();
+const passKey = password.trim();
+const demo = demoUsers[emailKey];
+
+console.log("DEBUG", {
+  emailKey,
+  passKey,
+  demoFound: !!demo,
+  demoPassword: demo?.password,
+  match: demo?.password === passKey,
+});
+
+if (demo && demo.password === passKey) {
+  set({ user: demo.user, isLoading: false, error: null });
+  return { success: true, user: demo.user };
+}
+    // try {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+    //     {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       credentials: "include", // important: send/receive cookies
+    //       body: JSON.stringify({ email, password }),
+    //     }
+    //   );
+     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
         {

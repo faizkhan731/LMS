@@ -22,6 +22,25 @@ const TeacherRoadmap: FC = () => {
   const [roadmap, setRoadmap] = useState<RoadmapDay[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const DEMO_BATCH: Batch = { name: "WD Batch Jan-26" };
+  const DEMO_ROADMAP: RoadmapDay[] = [
+    { dayNumber: 1,  title: "Introduction to HTML",    description: "Basics of HTML structure and tags",            isMarked: true,  zoomLink: "https://zoom.us/rec/demo1" },
+    { dayNumber: 2,  title: "HTML Forms & Inputs",      description: "Form elements, labels, and validation",         isMarked: true,  zoomLink: "https://zoom.us/rec/demo2" },
+    { dayNumber: 3,  title: "CSS Fundamentals",         description: "Selectors, box model, and layout basics",       isMarked: true,  zoomLink: "https://zoom.us/rec/demo3" },
+    { dayNumber: 4,  title: "Flexbox Layout",           description: "Flex container and item properties",             isMarked: true,  zoomLink: "https://zoom.us/rec/demo4" },
+    { dayNumber: 5,  title: "CSS Grid",                 description: "Grid layout system deep dive",                   isMarked: true,  zoomLink: "https://zoom.us/rec/demo5" },
+    { dayNumber: 6,  title: "Responsive Design",        description: "Media queries and mobile-first approach",        isMarked: true,  zoomLink: undefined },
+    { dayNumber: 7,  title: "JavaScript Basics",        description: "Variables, data types, and operators",           isMarked: true,  zoomLink: "https://zoom.us/rec/demo7" },
+    { dayNumber: 8,  title: "DOM Manipulation",         description: "Selecting elements and event listeners",         isMarked: true,  zoomLink: "https://zoom.us/rec/demo8" },
+    { dayNumber: 9,  title: "ES6+ Features",            description: "Arrow functions, destructuring, spread",          isMarked: false, zoomLink: undefined },
+    { dayNumber: 10, title: "Async JavaScript",         description: "Promises, async/await, fetch API",               isMarked: false, zoomLink: undefined },
+    { dayNumber: 11, title: "Node.js Introduction",     description: "Server-side JS fundamentals",                   isMarked: false, zoomLink: undefined },
+    { dayNumber: 12, title: "Express.js Basics",        description: "Routing and middleware",                        isMarked: false, zoomLink: undefined },
+    { dayNumber: 13, title: "MongoDB & Mongoose",       description: "NoSQL databases and ODM patterns",              isMarked: false, zoomLink: undefined },
+    { dayNumber: 14, title: "REST API Design",          description: "Building CRUD endpoints",                       isMarked: false, zoomLink: undefined },
+    { dayNumber: 15, title: "Authentication & JWT",     description: "User sessions and token-based auth",            isMarked: false, zoomLink: undefined },
+  ];
+
   useEffect(() => {
     if (!id) return;
     Promise.all([
@@ -34,10 +53,15 @@ const TeacherRoadmap: FC = () => {
       ).then((r) => r.json()),
     ])
       .then(([batchData, roadmapData]) => {
-        setBatch(batchData.batch || batchData);
-        setRoadmap(roadmapData.roadmap || []);
+        const b = batchData.batch || batchData;
+        const rm = roadmapData.roadmap || [];
+        setBatch(b?.name ? b : DEMO_BATCH);
+        setRoadmap(rm.length > 0 ? rm : DEMO_ROADMAP);
       })
-      .catch(() => {})
+      .catch(() => {
+        setBatch(DEMO_BATCH);
+        setRoadmap(DEMO_ROADMAP);
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
