@@ -68,6 +68,7 @@ export default function ChangePasswordPage() {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#FAFAF7",
+        padding: "0 16px",
       }}
     >
       <div

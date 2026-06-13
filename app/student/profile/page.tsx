@@ -75,6 +75,7 @@ const StudentProfile: FC = () => {
               display: "flex",
               alignItems: "center",
               gap: 16,
+              flexWrap: "wrap",
             }}
           >
             <div
@@ -140,52 +141,54 @@ const StudentProfile: FC = () => {
               padding: 20,
             }}
           >
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <tbody>
-                {[
-                  ["Email", profile?.email],
-                  ["Phone", profile?.phone],
-                  ["Course", profile?.course],
-                  ["Course ID", profile?.course],
-                  ["Batch", profile?.batch?.name || "—"],
-                  ["WhatsApp", profile?.batch?.name],
-                ].map(([label, value]) => (
-                  <tr key={label} style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-                    <td
-                      style={{
-                        padding: "10px 0",
-                        fontSize: 11,
-                        color: "#777",
-                        width: 120,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {label}
-                    </td>
-                    <td style={{ padding: "10px 0", fontSize: 12 }}>
-                      {label === "Course" ? (
-                        <span
-                          style={{
-                            fontSize: 9,
-                            fontWeight: 600,
-                            padding: "2px 7px",
-                            borderRadius: 20,
-                            backgroundColor:
-                              value === "WD001" ? "#E3F2FD" : "#FFF8E1",
-                            color:
-                              value === "WD001" ? "#1565C0" : "#E65100",
-                          }}
-                        >
-                          {value}
-                        </span>
-                      ) : (
-                        value || "—"
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="responsive-table-wrap">
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <tbody>
+                  {[
+                    ["Email", profile?.email],
+                    ["Phone", profile?.phone],
+                    ["Course", profile?.course],
+                    ["Course ID", profile?.course],
+                    ["Batch", profile?.batch?.name || "—"],
+                    ["WhatsApp", profile?.batch?.name],
+                  ].map(([label, value]) => (
+                    <tr key={label} style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+                      <td
+                        style={{
+                          padding: "10px 0",
+                          fontSize: 11,
+                          color: "#777",
+                          width: 120,
+                          fontWeight: 500,
+                        }}
+                      >
+                        {label}
+                      </td>
+                      <td style={{ padding: "10px 0", fontSize: 12 }}>
+                        {label === "Course" ? (
+                          <span
+                            style={{
+                              fontSize: 9,
+                              fontWeight: 600,
+                              padding: "2px 7px",
+                              borderRadius: 20,
+                              backgroundColor:
+                                value === "WD001" ? "#E3F2FD" : "#FFF8E1",
+                              color:
+                                value === "WD001" ? "#1565C0" : "#E65100",
+                            }}
+                          >
+                            {value}
+                          </span>
+                        ) : (
+                          value || "—"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       )}

@@ -50,12 +50,12 @@ const TeacherBatches: FC = () => {
         My Batches
       </h1>
       {loading ? (
-        <div style={{ display: "flex", gap: 16 }}>
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           {[1, 2].map((i) => (
             <div
               key={i}
               style={{
-                flex: 1,
+                flex: "1 1 260px",
                 height: 120,
                 borderRadius: 8,
                 backgroundColor: "rgba(0,0,0,0.06)",

@@ -1,0 +1,38 @@
+/* ════════════════════════════════════════════════
+   BBS LMS — Responsive Utilities
+   ════════════════════════════════════════════════ */
+
+/* Table wrappers for horizontal scroll on mobile */
+.responsive-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make tables within the wrapper behave */
+.responsive-table-wrap table {
+  min-width: 600px;
+  /* Force minimum width to trigger scroll on small screens */
+}
+
+/* Mobile-first flex/grid stackers */
+@media (max-width: 768px) {
+  .responsive-flex-col-mobile {
+    flex-direction: column !important;
+  }
+
+  .responsive-flex-col-mobile>* {
+    width: 100% !important;
+  }
+
+  .responsive-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Medium screen grid adjust */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .responsive-card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
