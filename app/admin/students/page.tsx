@@ -76,6 +76,21 @@ export default function AdminStudents() {
   const [total, setTotal] = useState(0);
   const PAGE_SIZE = 20;
 
+  const DEMO_STUDENTS: Student[] = [
+    { _id: "s1",  name: "Aarav Mehta",    email: "aarav.mehta@email.com",    phone: "9876543210", course: "WD001",   status: "active",   batch: { name: "WD Batch Jan-26" } },
+    { _id: "s2",  name: "Priya Singh",    email: "priya.singh@email.com",    phone: "9823456781", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s3",  name: "Rohan Kumar",    email: "rohan.kumar@email.com",    phone: "9845672345", course: "WD001",   status: "inactive", batch: { name: "WD Batch Jan-26" } },
+    { _id: "s4",  name: "Sneha Patel",    email: "sneha.patel@email.com",    phone: "9812345678", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s5",  name: "Arjun Nair",     email: "arjun.nair@email.com",     phone: "9867890123", course: "WD001",   status: "active",   batch: { name: "WD Batch Mar-26" } },
+    { _id: "s6",  name: "Kavya Reddy",    email: "kavya.reddy@email.com",    phone: "9898765432", course: "MERN001", status: "active",   batch: { name: "MERN Batch Apr-26" } },
+    { _id: "s7",  name: "Vikram Joshi",   email: "vikram.joshi@email.com",   phone: "9834567890", course: "WD001",   status: "active",   batch: { name: "WD Batch Mar-26" } },
+    { _id: "s8",  name: "Meena Iyer",     email: "meena.iyer@email.com",     phone: "9856789012", course: "WD001",   status: "inactive", batch: { name: "WD Batch Jan-26" } },
+    { _id: "s9",  name: "Nikhil Sharma",  email: "nikhil.sharma@email.com",  phone: "9878901234", course: "MERN001", status: "active",   batch: { name: "MERN Batch Feb-26" } },
+    { _id: "s10", name: "Ananya Gupta",   email: "ananya.gupta@email.com",   phone: "9801234567", course: "WD001",   status: "active",   batch: { name: "WD Batch May-26" } },
+    { _id: "s11", name: "Rahul Desai",    email: "rahul.desai@email.com",    phone: "9889012345", course: "MERN001", status: "active",   batch: { name: "MERN Batch Apr-26" } },
+    { _id: "s12", name: "Pooja Verma",    email: "pooja.verma@email.com",    phone: "9812398765", course: "WD001",   status: "active",   batch: { name: "WD Batch May-26" } },
+  ];
+
   const fetchStudents = useCallback(async () => {
     setLoading(true);
     try {
@@ -90,10 +105,24 @@ export default function AdminStudents() {
         { credentials: "include" }
       );
       const data: StudentsData = await res.json();
-      setStudents(data.students || []);
-      setTotal(data.total || 0);
+      const fetched = data.students || [];
+      if (fetched.length > 0) {
+        setStudents(fetched);
+        setTotal(data.total || 0);
+      } else {
+        // Apply demo data with client-side filtering
+        let demo = DEMO_STUDENTS;
+        if (search) demo = demo.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.email.toLowerCase().includes(search.toLowerCase()));
+        if (courseFilter !== "All") demo = demo.filter(s => s.course === courseFilter);
+        setStudents(demo);
+        setTotal(demo.length);
+      }
     } catch {
-      setStudents([]);
+      let demo = DEMO_STUDENTS;
+      if (search) demo = demo.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.email.toLowerCase().includes(search.toLowerCase()));
+      if (courseFilter !== "All") demo = demo.filter(s => s.course === courseFilter);
+      setStudents(demo);
+      setTotal(demo.length);
     } finally {
       setLoading(false);
     }

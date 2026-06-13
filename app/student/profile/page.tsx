@@ -19,13 +19,24 @@ const StudentProfile: FC = () => {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const DEMO_PROFILE: StudentProfile = {
+    name: "Aarav Mehta",
+    email: "aarav.mehta@email.com",
+    phone: "9876543210",
+    course: "WD001",
+    batch: { name: "WD Batch Jan-26" },
+  };
+
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/student/profile`, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((d) => setProfile(d.student || d))
-      .catch(() => {})
+      .then((d) => {
+        const p = d.student || d;
+        setProfile(p?.name ? p : DEMO_PROFILE);
+      })
+      .catch(() => setProfile(DEMO_PROFILE))
       .finally(() => setLoading(false));
   }, []);
 

@@ -149,13 +149,15 @@ const Shell: FC<ShellProps> = ({ children }) => {
   const router = useRouter();
   const { user, logout } = useAuthStore();
   const [collapsed, setCollapsed] = useState(false);
-  const [demoRole, setDemoRole] = useState<Role>(user?.role || "student");
+  // const [demoRole, setDemoRole] = useState<Role>(user?.role || "student");
 
-  useEffect(() => {
-    setDemoRole(user?.role || "student");
-  }, [user?.role]);
+  // useEffect(() => {
+  //   setDemoRole(user?.role || "student");
+  // }, [user?.role]);
 
-  const role = demoRole;
+  // const role = demoRole;
+  // const navItems = NAV_ITEMS[role] || [];
+  const role: Role = user?.role || "student";
   const navItems = NAV_ITEMS[role] || [];
 
   // Initials for avatar
@@ -202,7 +204,7 @@ const Shell: FC<ShellProps> = ({ children }) => {
         </div>
 
         {/* Center: Role label */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <span style={{ fontSize: 14 }}>{ROLE_ICONS[role]}</span>
           <span
             className={`px-2 py-0.5 rounded-full text-10 font-semibold capitalize ${ROLE_COLORS[role]}`}
@@ -229,6 +231,14 @@ const Shell: FC<ShellProps> = ({ children }) => {
               </option>
             ))}
           </select>
+        </div> */}
+          <div className="flex items-center gap-2">
+          <span style={{ fontSize: 14 }}>{ROLE_ICONS[role]}</span>
+          <span
+            className={`px-2 py-0.5 rounded-full text-10 font-semibold capitalize ${ROLE_COLORS[role]}`}
+          >
+            {role}
+          </span>
         </div>
 
         {/* Right: User info */}

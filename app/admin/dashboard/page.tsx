@@ -107,6 +107,22 @@ export default function AdminDashboard() {
     const router = useRouter();
 
 
+  /* ── Demo data shown when API is unavailable ── */
+  const DEMO_STATS: StatsData = {
+    totalStudents: 248,
+    activeBatches: 6,
+    teachers: 9,
+    totalRevenue: 1245000,
+  };
+
+  const DEMO_BATCHES: Batch[] = [
+    { _id: "d1", name: "WD Batch Jan-26",  course: "WD001",   teacher: { name: "Priya Sharma" },  studentCount: 42, status: "active" },
+    { _id: "d2", name: "MERN Batch Feb-26", course: "MERN001", teacher: { name: "Rahul Mehta" },   studentCount: 38, status: "active" },
+    { _id: "d3", name: "WD Batch Mar-26",  course: "WD001",   teacher: { name: "Sneha Patel" },   studentCount: 55, status: "active" },
+    { _id: "d4", name: "MERN Batch Apr-26", course: "MERN001", teacher: { name: "Arjun Nair" },    studentCount: 29, status: "active" },
+    { _id: "d5", name: "WD Batch May-26",  course: "WD001",   teacher: undefined,                 studentCount: 15, status: "pending" },
+  ];
+
   useEffect(() => {
     async function load() {
       try {
@@ -115,10 +131,13 @@ export default function AdminDashboard() {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/batches?limit=5`,     { credentials: "include" }),
         ]);
         const [s, b] = await Promise.all([sRes.json(), bRes.json()]);
-        setStats(s);
-        setBatches(b.batches || []);
-      } catch { /* empty state */ }
-      finally  { setLoading(false); }
+        setStats(s?.totalStudents != null ? s : DEMO_STATS);
+        setBatches((b.batches && b.batches.length > 0) ? b.batches : DEMO_BATCHES);
+      } catch {
+        setStats(DEMO_STATS);
+        setBatches(DEMO_BATCHES);
+      }
+      finally { setLoading(false); }
     }
     load();
   }, []);
