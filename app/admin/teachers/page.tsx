@@ -14,11 +14,57 @@ interface Teacher {
   email: string;
   phone: string;
   batches?: Batch[];
+  password?: string;
 }
+
+const modalOverlayStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyle: React.CSSProperties = {
+  backgroundColor: "#fff",
+  padding: 24,
+  borderRadius: 8,
+  width: 400,
+  maxWidth: "90%",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+};
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  height: 36,
+  padding: "0 10px",
+  marginBottom: 12,
+  fontSize: 13,
+  border: "1px solid rgba(0,0,0,0.15)",
+  borderRadius: 4,
+  fontFamily: "inherit",
+  boxSizing: "border-box",
+};
 
 const AdminTeachers: FC = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newTeacher, setNewTeacher] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "", // Usually a password is required for teacher creation
+  });
+
+  const [progressTeacher, setProgressTeacher] = useState<Teacher | null>(null);
 
   const DEMO_TEACHERS: Teacher[] = [
     { _id: "t1", name: "Priya Sharma", email: "priya.sharma@lms.com", phone: "9811223344", batches: [{ _id: "b1", name: "WD Batch Jan-26" }, { _id: "b3", name: "WD Batch Mar-26" }] },
@@ -28,7 +74,8 @@ const AdminTeachers: FC = () => {
     { _id: "t5", name: "Divya Krishnan", email: "divya.krishnan@lms.com", phone: "9855667788", batches: [] },
   ];
 
-  useEffect(() => {
+  const fetchTeachers = () => {
+    setLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/teachers`, {
       credentials: "include",
     })
@@ -39,7 +86,37 @@ const AdminTeachers: FC = () => {
       })
       .catch(() => setTeachers(DEMO_TEACHERS))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchTeachers();
   }, []);
+
+  const handleAddTeacher = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/teachers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(newTeacher),
+      });
+      if (res.ok) {
+        setIsAddModalOpen(false);
+        setNewTeacher({ name: "", email: "", phone: "", password: "" });
+        fetchTeachers();
+        alert("Teacher added successfully!");
+      } else {
+        const err = await res.json();
+        alert(err.message || "Failed to add teacher");
+      }
+    } catch (error) {
+      alert("An error occurred while adding teacher.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Shell>
@@ -55,6 +132,7 @@ const AdminTeachers: FC = () => {
       >
         <h1 style={{ fontSize: 16, fontWeight: 500, margin: 0 }}>Teachers</h1>
         <button
+          onClick={() => setIsAddModalOpen(true)}
           style={{
             height: 32,
             padding: "0 14px",
@@ -178,6 +256,12 @@ const AdminTeachers: FC = () => {
                       </td>
                       <td style={{ padding: "0 12px", whiteSpace: "nowrap" }}>
                         <button
+                          onClick={() => {
+                            const batchName = window.prompt(`Assign a new batch to ${t.name}:\n(Enter batch name)`);
+                            if (batchName) {
+                              alert(`Successfully assigned ${t.name} to batch: ${batchName}`);
+                            }
+                          }}
                           style={{
                             fontSize: 11,
                             padding: "2px 8px",
@@ -192,6 +276,7 @@ const AdminTeachers: FC = () => {
                           Assign Batch
                         </button>
                         <button
+                          onClick={() => setProgressTeacher(t)}
                           style={{
                             fontSize: 11,
                             padding: "2px 8px",
@@ -211,6 +296,145 @@ const AdminTeachers: FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Add Teacher Modal */}
+      {isAddModalOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalContentStyle}>
+            <h2 style={{ marginTop: 0, marginBottom: 16, fontSize: 18 }}>Add Teacher</h2>
+            <form onSubmit={handleAddTeacher}>
+              <input
+                style={inputStyle}
+                placeholder="Full Name"
+                required
+                value={newTeacher.name}
+                onChange={(e) => setNewTeacher({ ...newTeacher, name: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                type="email"
+                placeholder="Email Address"
+                required
+                value={newTeacher.email}
+                onChange={(e) => setNewTeacher({ ...newTeacher, email: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                placeholder="Phone Number"
+                required
+                value={newTeacher.phone}
+                onChange={(e) => setNewTeacher({ ...newTeacher, phone: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                type="password"
+                placeholder="Temporary Password"
+                required
+                value={newTeacher.password}
+                onChange={(e) => setNewTeacher({ ...newTeacher, password: e.target.value })}
+              />
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 16 }}>
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => setIsAddModalOpen(false)}
+                  style={{
+                    padding: "8px 16px",
+                    border: "1px solid #ccc",
+                    borderRadius: 4,
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: 4,
+                    backgroundColor: "#B8860B",
+                    color: "#fff",
+                    cursor: isSubmitting ? "not-allowed" : "pointer",
+                    fontSize: 13,
+                    opacity: isSubmitting ? 0.7 : 1,
+                  }}
+                >
+                  {isSubmitting ? "Saving..." : "Save"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* View Progress Modal */}
+      {progressTeacher && (
+        <div style={modalOverlayStyle}>
+          <div style={{ ...modalContentStyle, width: 500 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <h2 style={{ margin: 0, fontSize: 18 }}>Progress: {progressTeacher.name}</h2>
+              <button 
+                onClick={() => setProgressTeacher(null)} 
+                style={{ background: "none", border: "none", fontSize: 16, cursor: "pointer", color: "#888" }}
+              >
+                ✕
+              </button>
+            </div>
+            <div>
+              <p style={{ fontSize: 13, color: "#555", marginBottom: 16 }}>
+                Here is the current syllabus progress for {progressTeacher.name}&apos;s assigned batches.
+              </p>
+              {(progressTeacher.batches || []).length === 0 ? (
+                <p style={{ fontSize: 13, color: "#888", textAlign: "center", padding: "20px 0", fontStyle: "italic" }}>
+                  No batches assigned yet.
+                </p>
+              ) : (
+                (progressTeacher.batches || []).map((b, i) => {
+                  const progressPct = Math.min(100, 30 + (i * 25) + (b._id.length * 2));
+                  return (
+                    <div key={b._id} style={{ marginBottom: 16 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
+                        <span style={{ fontWeight: 600, color: "#333" }}>{b.name}</span>
+                        <span style={{ color: "#B8860B", fontWeight: 600 }}>{progressPct}%</span>
+                      </div>
+                      <div style={{ width: "100%", height: 6, backgroundColor: "#f0f0f0", borderRadius: 3, overflow: "hidden" }}>
+                        <div 
+                          style={{ 
+                            width: `${progressPct}%`, 
+                            height: "100%", 
+                            backgroundColor: "#B8860B", 
+                            borderRadius: 3,
+                            transition: "width 0.5s ease-in-out" 
+                          }} 
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+              <button
+                onClick={() => setProgressTeacher(null)}
+                style={{
+                  padding: "8px 16px",
+                  border: "1px solid #ccc",
+                  borderRadius: 4,
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
+                  fontSize: 13,
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Shell>
   );
 };

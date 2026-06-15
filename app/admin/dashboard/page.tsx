@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, FC, ReactNode } from "react";
+import { useEffect, useState, useRef, ChangeEvent, FC, ReactNode } from "react";
 import Shell from "@/app/components/Shell";
 import { useRouter } from "next/navigation";
 
@@ -37,6 +37,40 @@ const CHART_POINTS = [
   { day: "Sat", val: 58, x: 80, y: 20, yPct: 20 },
   { day: "Sun", val: 68, x: 95, y: 10, yPct: 10 },
 ];
+
+const modalOverlayStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyle: React.CSSProperties = {
+  backgroundColor: "#fff",
+  padding: 24,
+  borderRadius: 8,
+  width: 400,
+  maxWidth: "90%",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+};
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  height: 36,
+  padding: "0 10px",
+  marginBottom: 12,
+  fontSize: 13,
+  border: "1px solid rgba(0,0,0,0.15)",
+  borderRadius: 4,
+  fontFamily: "inherit",
+  boxSizing: "border-box",
+};
 
 /* ─── Stat Card ─────────────────────────────── */
 interface StatCardProps {
@@ -106,6 +140,14 @@ export default function AdminDashboard() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const router = useRouter();
 
+  // Modals state
+  const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
+  const [isAddTeacherOpen, setIsAddTeacherOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [newStudent, setNewStudent] = useState({ name: "", email: "", phone: "", course: "" });
+  const [newTeacher, setNewTeacher] = useState({ name: "", email: "", phone: "", password: "" });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   /* ── Demo data shown when API is unavailable ── */
   const DEMO_STATS: StatsData = {
@@ -123,24 +165,107 @@ export default function AdminDashboard() {
     { _id: "d5", name: "WD Batch May-26", course: "WD001", teacher: undefined, studentCount: 15, status: "pending" },
   ];
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const [sRes, bRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/stats`, { credentials: "include" }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/batches?limit=5`, { credentials: "include" }),
-        ]);
-        const [s, b] = await Promise.all([sRes.json(), bRes.json()]);
-        setStats(s?.totalStudents != null ? s : DEMO_STATS);
-        setBatches((b.batches && b.batches.length > 0) ? b.batches : DEMO_BATCHES);
-      } catch {
-        setStats(DEMO_STATS);
-        setBatches(DEMO_BATCHES);
-      }
-      finally { setLoading(false); }
+  const loadData = async () => {
+    try {
+      const [sRes, bRes] = await Promise.all([
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/stats`, { credentials: "include" }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/batches?limit=5`, { credentials: "include" }),
+      ]);
+      const [s, b] = await Promise.all([sRes.json(), bRes.json()]);
+      setStats(s?.totalStudents != null ? s : DEMO_STATS);
+      setBatches((b.batches && b.batches.length > 0) ? b.batches : DEMO_BATCHES);
+    } catch {
+      setStats(DEMO_STATS);
+      setBatches(DEMO_BATCHES);
     }
-    load();
+    finally { setLoading(false); }
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
+
+  const handleAddStudent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/students`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(newStudent),
+      });
+      if (res.ok) {
+        setIsAddStudentOpen(false);
+        setNewStudent({ name: "", email: "", phone: "", course: "" });
+        loadData();
+        alert("Student added successfully!");
+      } else {
+        const err = await res.json();
+        alert(err.message || "Failed to add student");
+      }
+    } catch (error) {
+      alert("An error occurred while adding student.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleExcelUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      alert("Uploading Excel file...");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/students/bulk`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+      if (res.ok) {
+        loadData();
+        alert("Students uploaded successfully!");
+      } else {
+        const err = await res.json();
+        alert(err.message || "Failed to upload students");
+      }
+    } catch (error) {
+      alert("An error occurred while uploading excel.");
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
+
+  const handleAddTeacher = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/teachers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(newTeacher),
+      });
+      if (res.ok) {
+        setIsAddTeacherOpen(false);
+        setNewTeacher({ name: "", email: "", phone: "", password: "" });
+        loadData();
+        alert("Teacher added successfully!");
+      } else {
+        const err = await res.json();
+        alert(err.message || "Failed to add teacher");
+      }
+    } catch (error) {
+      alert("An error occurred while adding teacher.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Shell>
@@ -156,17 +281,9 @@ export default function AdminDashboard() {
             <p className="dashboard-hero__sub">{today} · Here's what's happening across your cohorts today.</p>
           </div>
           <div className="dashboard-hero__actions">
-            {/* <button className="btn btn--secondary">Manage Students</button>
-            <button className="btn btn--primary">
-              View Batches
-
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button> */}
             <button
               className="btn btn--secondary"
-              onClick={() => router.push("/students")}
+              onClick={() => router.push("/admin/students")}
             >
               Manage Students
             </button>
@@ -434,7 +551,7 @@ export default function AdminDashboard() {
                       </tr>
                     )
                     : batches.map(b => (
-                      <tr key={b._id} className="batch-table__row">
+                      <tr key={b._id} className={`batch-table__row batch-table__row--${b.status?.toLowerCase() || "pending"}`}>
                         <td className="batch-table__td batch-table__td--name">{b.name}</td>
                         <td className="batch-table__td"><CourseBadge course={b.course} /></td>
                         <td className={`batch-table__td ${!b.teacher ? "batch-table__td--muted" : ""}`}>
@@ -465,23 +582,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="quick-actions">
-              <button className="quick-action quick-action--primary">
-                <span className="quick-action__icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 3v12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8 7l4-4 4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M21 21H3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <div className="quick-action__body">
-                  <span className="quick-action__label">Upload Student Excel</span>
-                  <span className="quick-action__sub">Bulk add students via spreadsheet</span>
-                </div>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="quick-action__arrow">
-                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button className="quick-action">
+              <button className="quick-action" onClick={() => setIsAddStudentOpen(true)}>
                 <span className="quick-action__icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -496,7 +597,7 @@ export default function AdminDashboard() {
                   <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              <button className="quick-action">
+              <button className="quick-action" onClick={() => setIsAddTeacherOpen(true)}>
                 <span className="quick-action__icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 3L1 9l11 6 9-4.91V17a2 2 0 01-2 2H4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -559,6 +660,153 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Add Student Modal */}
+      {isAddStudentOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalContentStyle}>
+            <h2 style={{ marginTop: 0, marginBottom: 16, fontSize: 18 }}>Add Student</h2>
+            <form onSubmit={handleAddStudent}>
+              <input
+                style={inputStyle}
+                placeholder="Full Name"
+                required
+                value={newStudent.name}
+                onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                type="email"
+                placeholder="Email Address"
+                required
+                value={newStudent.email}
+                onChange={(e) => setNewStudent({ ...newStudent, email: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                placeholder="Phone Number"
+                required
+                value={newStudent.phone}
+                onChange={(e) => setNewStudent({ ...newStudent, phone: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                placeholder="Course (e.g. WD001, MERN001)"
+                required
+                value={newStudent.course}
+                onChange={(e) => setNewStudent({ ...newStudent, course: e.target.value })}
+              />
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 16 }}>
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => setIsAddStudentOpen(false)}
+                  style={{
+                    padding: "8px 16px",
+                    border: "1px solid #ccc",
+                    borderRadius: 4,
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: 4,
+                    backgroundColor: "#B8860B",
+                    color: "#fff",
+                    cursor: isSubmitting ? "not-allowed" : "pointer",
+                    fontSize: 13,
+                    opacity: isSubmitting ? 0.7 : 1,
+                  }}
+                >
+                  {isSubmitting ? "Saving..." : "Save"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add Teacher Modal */}
+      {isAddTeacherOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalContentStyle}>
+            <h2 style={{ marginTop: 0, marginBottom: 16, fontSize: 18 }}>Add Teacher</h2>
+            <form onSubmit={handleAddTeacher}>
+              <input
+                style={inputStyle}
+                placeholder="Full Name"
+                required
+                value={newTeacher.name}
+                onChange={(e) => setNewTeacher({ ...newTeacher, name: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                type="email"
+                placeholder="Email Address"
+                required
+                value={newTeacher.email}
+                onChange={(e) => setNewTeacher({ ...newTeacher, email: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                placeholder="Phone Number"
+                required
+                value={newTeacher.phone}
+                onChange={(e) => setNewTeacher({ ...newTeacher, phone: e.target.value })}
+              />
+              <input
+                style={inputStyle}
+                type="password"
+                placeholder="Temporary Password"
+                required
+                value={newTeacher.password}
+                onChange={(e) => setNewTeacher({ ...newTeacher, password: e.target.value })}
+              />
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 16 }}>
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => setIsAddTeacherOpen(false)}
+                  style={{
+                    padding: "8px 16px",
+                    border: "1px solid #ccc",
+                    borderRadius: 4,
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: 4,
+                    backgroundColor: "#B8860B",
+                    color: "#fff",
+                    cursor: isSubmitting ? "not-allowed" : "pointer",
+                    fontSize: 13,
+                    opacity: isSubmitting ? 0.7 : 1,
+                  }}
+                >
+                  {isSubmitting ? "Saving..." : "Save"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </Shell>
   );
 }

@@ -477,6 +477,16 @@ const NAV_ITEMS: Record<string, NavItem[]> = {
         </svg>
       ),
     },
+    {
+      label: "Profile",
+      href: "/admin/profile",
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 20v-1a4 4 0 014-4h8a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    },
   ],
   teacher: [
     {
@@ -579,31 +589,31 @@ const Shell: FC<ShellProps> = ({ children }) => {
         style={{ height: "44px", backgroundColor: "#1A1A1A" }}
       >
         {/* Left: Logo */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             className="shell-mobile-toggle"
             onClick={() => setMobileOpen(true)}
             aria-label="Open Menu"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <div
-            className="flex items-center justify-center rounded-md"
-            style={{ width: 24, height: 24, backgroundColor: "#1A1A1A", border: "1px solid #B8860B" }}
-          >
-            <span style={{ fontSize: 9, fontWeight: 700, color: "#B8860B" }}>BBS</span>
+          
+          <div className="flex items-center gap-2">
+            <div style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "8px", overflow: "hidden", backgroundColor: "#fff" }}>
+              <img src="/logo.jpeg" alt="BBS Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span style="font-size: 10px; font-weight: bold; color: #B8860B;">BBS</span>'; }} />
+            </div>
+            <span className="shell-brand-text" style={{ fontSize: 14, fontWeight: 600, color: "#FAFAF7", letterSpacing: "0.5px" }}>
+              Build Beyond Studio
+            </span>
           </div>
-          <span className="shell-brand-text" style={{ fontSize: 12, fontWeight: 500, color: "#FAFAF7" }}>
-            Build Beyond Studio LMS
-          </span>
         </div>
 
         {/* Center: Role pill */}
-        <div className="flex items-center gap-2">
-          <span style={{ fontSize: 14 }}>{ROLE_ICONS[role]}</span>
-          <span className={`px-2 py-0.5 rounded-full text-10 font-semibold capitalize ${ROLE_COLORS[role]}`}>
+        <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span style={{ fontSize: 18 }}>{ROLE_ICONS[role]}</span>
+          <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider shadow-sm ${ROLE_COLORS[role]}`} style={{ border: "1px solid rgba(255,255,255,0.2)" }}>
             {role}
           </span>
         </div>
@@ -644,17 +654,22 @@ const Shell: FC<ShellProps> = ({ children }) => {
         <aside className={`shell-sidebar ${mobileOpen ? "shell-sidebar--open" : ""} ${collapsed ? "shell-sidebar--collapsed" : ""}`}>
           <button
             onClick={() => setCollapsed((c) => !c)}
-            className="shell-sidebar-collapse-btn w-full flex items-center justify-end px-3 py-2 opacity-30 hover:opacity-70 transition-opacity"
-            style={{ fontSize: 12, background: "none", border: "none", cursor: "pointer" }}
+            className="shell-sidebar-collapse-btn w-full flex items-center justify-center px-3 py-3 opacity-50 hover:opacity-100 transition-all duration-200"
+            style={{ fontSize: 24, background: "rgba(0,0,0,0.02)", border: "none", cursor: "pointer", marginBottom: "16px", borderBottom: "1px solid rgba(0,0,0,0.05)" }}
+            title={collapsed ? "Expand Menu" : "Collapse Menu"}
           >
-            {collapsed ? "›" : "‹"}
+            {collapsed ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            )}
           </button>
 
-          <nav>
+          <nav style={{ padding: "0 12px" }}>
             {!collapsed && (
               <p
-                className="px-3 mb-1 uppercase tracking-widest"
-                style={{ fontSize: 10, fontWeight: 700, color: "#999", letterSpacing: "0.08em" }}
+                className="px-3 mb-4 uppercase tracking-widest"
+                style={{ fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.1em" }}
               >
                 Menu
               </p>
@@ -666,21 +681,25 @@ const Shell: FC<ShellProps> = ({ children }) => {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 transition-colors duration-100 relative"
+                  className="flex items-center gap-3 transition-all duration-200 relative sidebar-item-link"
                   style={{
-                    height: 30,
-                    paddingLeft: collapsed ? 14 : 12,
-                    paddingRight: 8,
-                    fontSize: 12,
-                    fontWeight: isActive ? 600 : 400,
-                    color: isActive ? "#7A5C00" : "#1A1A1A",
+                    height: 42,
+                    marginBottom: 10,
+                    paddingLeft: collapsed ? 0 : 16,
+                    paddingRight: 16,
+                    justifyContent: collapsed ? "center" : "flex-start",
+                    fontSize: 14,
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? "#7A5C00" : "#444",
                     backgroundColor: isActive ? "#F5E6C8" : "transparent",
-                    borderLeft: isActive ? "3px solid #B8860B" : "3px solid transparent",
+                    borderLeft: isActive && !collapsed ? "4px solid #B8860B" : "4px solid transparent",
+                    borderRadius: collapsed ? "8px" : "0 8px 8px 0",
                     textDecoration: "none",
+                    boxShadow: isActive ? "0 2px 4px rgba(184,134,11,0.1)" : "none",
                   }}
                   title={collapsed ? item.label : undefined}
                 >
-                  <span style={{ fontSize: 14, flexShrink: 0 }}>{item.icon}</span>
+                  <span style={{ fontSize: 18, flexShrink: 0, color: isActive ? "#B8860B" : "inherit" }}>{item.icon}</span>
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </Link>
               );

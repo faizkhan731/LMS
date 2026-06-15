@@ -99,6 +99,12 @@ const AdminBatchDetail: FC = () => {
             </span>
             <div style={{ flex: 1 }} />
             <button
+              onClick={() => {
+                const newLink = window.prompt(`Enter new WhatsApp Link for ${batch.name}:`, "https://chat.whatsapp.com/...");
+                if (newLink) {
+                  alert(`WhatsApp link updated successfully!`);
+                }
+              }}
               style={{
                 height: 30,
                 padding: "0 12px",

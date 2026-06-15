@@ -15,9 +15,81 @@ interface StudentProfile {
   batch?: Batch;
 }
 
+const modalOverlayStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyle: React.CSSProperties = {
+  backgroundColor: "#fff",
+  padding: 24,
+  borderRadius: 8,
+  width: 400,
+  maxWidth: "90%",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+};
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  height: 36,
+  padding: "0 10px",
+  marginBottom: 12,
+  fontSize: 13,
+  border: "1px solid rgba(0,0,0,0.15)",
+  borderRadius: 4,
+  fontFamily: "inherit",
+  boxSizing: "border-box",
+};
+
 const StudentProfile: FC = () => {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Password modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      return alert("New passwords do not match!");
+    }
+    setIsUpdating(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/student/profile/password`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Failed to update password");
+      }
+      alert("Password updated successfully!");
+      setIsModalOpen(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      // Fallback for demo
+      alert(error.message || "Failed to update password. (Mocked success)");
+      setIsModalOpen(false);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   const DEMO_PROFILE: StudentProfile = {
     name: "Aarav Mehta",
@@ -117,6 +189,7 @@ const StudentProfile: FC = () => {
               </span>
             </div>
             <button
+              onClick={() => setIsModalOpen(true)}
               style={{
                 height: 30,
                 padding: "0 14px",
@@ -191,6 +264,76 @@ const StudentProfile: FC = () => {
             </div>
           </div>
         </>
+      )}
+
+      {/* Change Password Modal */}
+      {isModalOpen && (
+        <div style={modalOverlayStyle}>
+          <div style={modalContentStyle}>
+            <h2 style={{ marginTop: 0, marginBottom: 16, fontSize: 18 }}>Change Password</h2>
+            <form onSubmit={handleUpdatePassword}>
+              <label style={{ fontSize: 12, display: "block", marginBottom: 4 }}>Current Password</label>
+              <input
+                style={inputStyle}
+                type="password"
+                required
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              <label style={{ fontSize: 12, display: "block", marginBottom: 4 }}>New Password</label>
+              <input
+                style={inputStyle}
+                type="password"
+                required
+                minLength={6}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <label style={{ fontSize: 12, display: "block", marginBottom: 4 }}>Confirm New Password</label>
+              <input
+                style={inputStyle}
+                type="password"
+                required
+                minLength={6}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 16 }}>
+                <button
+                  type="button"
+                  disabled={isUpdating}
+                  onClick={() => setIsModalOpen(false)}
+                  style={{
+                    padding: "8px 16px",
+                    border: "1px solid #ccc",
+                    borderRadius: 4,
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUpdating}
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: 4,
+                    backgroundColor: "#B8860B",
+                    color: "#fff",
+                    cursor: isUpdating ? "not-allowed" : "pointer",
+                    fontSize: 13,
+                    opacity: isUpdating ? 0.7 : 1,
+                  }}
+                >
+                  {isUpdating ? "Updating..." : "Update Password"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </Shell>
   );

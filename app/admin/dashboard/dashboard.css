@@ -170,6 +170,7 @@
 
 /* ─── Stat Card ─────────────────────────────────── */
 .stat-card {
+    position: relative;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -178,12 +179,41 @@
     padding: 16px;
     box-shadow: var(--shadow-card);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    background-image: url('/logo.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.02;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    border-color: rgba(184, 134, 11, 0.3);
+    box-shadow: 0 12px 24px rgba(184, 134, 11, 0.15);
+    border-color: rgba(184, 134, 11, 0.4);
+    background: #fff;
+}
+
+.stat-card:hover::before {
+    opacity: 0.08;
 }
 
 .stat-card__header {
@@ -434,7 +464,7 @@
 
 .batch-table__row {
     border-bottom: 1px solid var(--bbs-border);
-    transition: background 0.10s;
+    transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .batch-table__row:last-child {
@@ -443,6 +473,14 @@
 
 .batch-table__row:hover {
     background: #fafaf8;
+}
+
+.batch-table__row--active:hover {
+    background: rgba(46, 125, 50, 0.06);
+}
+
+.batch-table__row--pending:hover {
+    background: rgba(245, 127, 23, 0.06);
 }
 
 .batch-table__td {

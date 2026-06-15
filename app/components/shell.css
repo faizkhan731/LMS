@@ -3,12 +3,12 @@
    ════════════════════════════════════════════════ */
 :root {
     /* Brand */
-    --bbs-black: #1A1A1A;
-    --bbs-gold: #B8860B;
-    --bbs-gold-mid: #D4A843;
-    --bbs-gold-light: #F5E6C8;
-    --bbs-gold-dark: #7A5C00;
-    --bbs-off-white: #FAFAF7;
+    --bbs-black: #0A0A0A;
+    --bbs-gold: #D4AF37;
+    --bbs-gold-mid: #E5C158;
+    --bbs-gold-light: #F9F1D8;
+    --bbs-gold-dark: #A68A2B;
+    --bbs-off-white: #FCFCFA;
     --bbs-white: #FFFFFF;
     --bbs-border: rgba(0, 0, 0, 0.08);
     --bbs-border-md: rgba(0, 0, 0, 0.12);

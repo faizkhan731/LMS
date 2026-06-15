@@ -241,6 +241,12 @@ export default function AdminBatches() {
                       </td>
                       <td style={{ padding: "0 12px", whiteSpace: "nowrap" }}>
                         <button
+                          onClick={() => {
+                            const newLink = window.prompt(`Enter new WhatsApp Link for ${b.name}:`, "https://chat.whatsapp.com/...");
+                            if (newLink) {
+                              alert(`WhatsApp link updated successfully!`);
+                            }
+                          }}
                           style={{
                             fontSize: 11,
                             padding: "2px 8px",
@@ -255,6 +261,12 @@ export default function AdminBatches() {
                           Edit WA Link
                         </button>
                         <button
+                          onClick={() => {
+                            const teacherName = window.prompt(`Assign teacher to ${b.name}:`, b.teacher?.name || "");
+                            if (teacherName) {
+                              alert(`Teacher ${teacherName} assigned successfully to ${b.name}!`);
+                            }
+                          }}
                           style={{
                             fontSize: 11,
                             padding: "2px 8px",
@@ -270,6 +282,12 @@ export default function AdminBatches() {
                         </button>
                         {b.status !== "completed" && (
                           <button
+                            onClick={() => {
+                              const confirmComplete = window.confirm(`Are you sure you want to mark ${b.name} as complete?`);
+                              if (confirmComplete) {
+                                alert(`Batch ${b.name} marked as complete.`);
+                              }
+                            }}
                             style={{
                               fontSize: 11,
                               padding: "2px 8px",

@@ -149,24 +149,44 @@ const TeacherBatches: FC = () => {
                   />
                 </div>
               </div>
-              <Link href={`/teacher/batches/${b._id}/roadmap`}>
-                <button
-                  style={{
-                    width: "100%",
-                    height: 30,
-                    backgroundColor: "#B8860B",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: 4,
-                    fontSize: 12,
-                    fontWeight: 500,
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  Open Roadmap
-                </button>
-              </Link>
+              <div style={{ display: "flex", gap: 8 }}>
+                <Link href={`/teacher/batches/${b._id}/students`} style={{ flex: 1 }}>
+                  <button
+                    style={{
+                      width: "100%",
+                      height: 30,
+                      backgroundColor: "transparent",
+                      color: "#1A1A1A",
+                      border: "1px solid rgba(0,0,0,0.1)",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    View Students
+                  </button>
+                </Link>
+                <Link href={`/teacher/batches/${b._id}/roadmap`} style={{ flex: 1 }}>
+                  <button
+                    style={{
+                      width: "100%",
+                      height: 30,
+                      backgroundColor: "#B8860B",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: 4,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    Open Roadmap
+                  </button>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
