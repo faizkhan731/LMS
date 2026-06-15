@@ -49,6 +49,9 @@ export function proxy(request: NextRequest): NextResponse {
   if (process.env.NODE_ENV === "development") {
     return NextResponse.next();
   }
+  if (!process.env.NEXT_PUBLIC_API_URL) {        // ← YEH ADD KARO
+    return NextResponse.next();                   // ← YEH ADD KARO
+  }
 
   const { pathname } = request.nextUrl;
 
